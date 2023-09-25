@@ -36,3 +36,4 @@ export interface IStoreLabData {
     getLabs(): Promise<Lab[]>;
     saveLab(lab: Lab): Promise<Lab[]>;
 }
+
