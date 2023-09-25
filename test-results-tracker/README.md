@@ -38,3 +38,17 @@ If you prefer, you can [use styled-components instead](https://mui.com/material-
 
 You now have a working example project.
 You can head back to the documentation and continue by browsing the [templates](https://mui.com/material-ui/getting-started/templates/) section.
+
+
+storage of labs data 
+        Date (date picker)
+        Fasted (yes/no),
+        Notes (plain text)
+        Test Result (list of)
+            Test type (auto-complete)
+            Value: (decimal number)
+            Comments: (plain text)
+
+        
+graph lab data
+share lab data via link
