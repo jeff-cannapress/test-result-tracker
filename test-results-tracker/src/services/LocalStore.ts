@@ -1,5 +1,5 @@
-import { AsyncStorage, AsyncStorageWrapper } from "./AsyncStorage";
-import { IStoreLabData, Lab, TestCategory } from "./Models";
+
+import { LabDataStore, Lab, TestCategory } from "./Models";
 export const cannedCategories: TestCategory[] = [
     {
         "id": 0,
@@ -1168,18 +1168,18 @@ export const cannedCategories: TestCategory[] = [
         ]
     }
 ];
-export default class LocalStore implements IStoreLabData {
+export default class LocalStore implements LabDataStore {
     private static readonly StoreKey = "test-results-tracker/labs";
     private tests: TestCategory[] = cannedCategories;
-    private store: AsyncStorage
-    constructor(store: AsyncStorage | null = null) {
-        this.store = store || new AsyncStorageWrapper(window.localStorage);
+    private store: Storage
+    constructor(store: Storage | null = null) {
+        this.store = store || window.localStorage;
     }
     getTests(): Promise<TestCategory[]> {
         return Promise.resolve(this.tests);
     }
     async getLabs(): Promise<Lab[]> {
-        const json = await this.store.getItem(LocalStore.StoreKey);
+        const json = this.store.getItem(LocalStore.StoreKey);
         if (json === null || json === "" || json === undefined) {
             return [];
         }
@@ -1190,8 +1190,13 @@ export default class LocalStore implements IStoreLabData {
     async saveLab(lab: Lab): Promise<Lab[]> {
         let labs = await this.getLabs();
         labs = labs.filter(l => l.date.getTime() !== lab.date.getTime()).concat([lab]);
-        await this.store.setItem(LocalStore.StoreKey, JSON.stringify(labs));
+        this.store.setItem(LocalStore.StoreKey, JSON.stringify(labs));
         return labs;
     }
-
+    async removeLab(lab: Lab): Promise<Lab[]> {
+        let labs = await this.getLabs();
+        labs = labs.filter(l => l.date.getTime() !== lab.date.getTime());
+        this.store.setItem(LocalStore.StoreKey, JSON.stringify(labs));
+        return labs;
+    }
 }
