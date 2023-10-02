@@ -12,21 +12,38 @@ export type Lab = {
     results: TestResult[]
 };
 export type KeyDate = {
-    date:Date;
-    title:string;
-    notes:string;
+    date: Date;
+    title: string;
+    notes: string;
 }
+export type Report = {
+    title: string;
+    notes: string;
+    keyDates: KeyDate[];
+    labs: Lab[];
+    include: {
+        testId: number,
+
+    }[]
+
+
+};
 
 
 export type TestUnits = {
     id: number;
     name: string;
+    abbreviation: string;
+    normalizationFactor: number;
+    intlUnit:string
 }
-export type Test = {
+export type TestDefinition = {
     id: number;
     categoryId: number;
     name: string;
-    units: { testUnitsId: number, normalizationFactor: number }[];
+    // test definitions will store all values as g/L
+    units: number[];
+    // test definitions will store all values as g/L
     referenceRange: {
         min: number;
         max: number;
@@ -35,18 +52,15 @@ export type Test = {
 export type TestCategory = {
     id: number;
     name: string;
-    tests: Test[];
+    tests: TestDefinition[];
 }
 
-export type RootAppState = {
-    tests: TestCategory[];
-    labs: Lab[];
-}
+
 
 export interface LabDataStore {
-    getTests(): Promise<TestCategory[]>;
-    getLabs(): Promise<Lab[]>;
-    saveLab(lab: Lab): Promise<Lab[]>;
-    removeLab(lab: Lab): Promise<Lab[]>;
+    getTestDefinitions(): Promise<TestCategory[]>;
+    getLabs(patientId: string): Promise<Lab[]>;
+    saveLab(patientId: string, lab: Lab): Promise<Lab[]>;
+    removeLab(patientId: string, lab: Lab): Promise<Lab[]>;
 }
 
