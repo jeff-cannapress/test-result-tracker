@@ -1,16 +1,16 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { addLab, loadPatient } from "./labs.thunk";
+import { addLab, loadPatient, selectLab } from "./labs.thunk";
 import { LabsState } from './state';
 
 const labSlice = createSlice({
     name: 'labs',
     initialState: {
         labs: [],
-        patientId: '',
+        patientId: 'anonymous',
         currentLab: null,
         processing: false,
-        loading: 'idle'
+        loading: 'idle',
     } as LabsState,
     reducers: {},
     extraReducers: (builder) => {
@@ -27,16 +27,19 @@ const labSlice = createSlice({
             state.labs = [];
             state.loading = 'failed';
         });
-        builder.addCase(addLab.pending, (state,action)=>{
+        builder.addCase(addLab.pending, (state, action) => {
             state.loading = 'pending';
         });
-        builder.addCase(addLab.rejected,(state,action)=>{
+        builder.addCase(addLab.rejected, (state, action) => {
             state.loading = 'failed';
         });
-        builder.addCase(addLab.fulfilled,(state,action)=>{
+        builder.addCase(addLab.fulfilled, (state, action) => {
             state.labs = action.payload.labs;
             state.loading = 'idle';
-        })        
+        });
+        builder.addCase(selectLab.fulfilled, (state, action) => {
+            state.currentLab = action.payload.currentLab;
+        })
 
     }
 })

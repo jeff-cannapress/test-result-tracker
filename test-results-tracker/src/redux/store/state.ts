@@ -17,7 +17,8 @@ export type LabsState = {
     patientId: string,
     currentLab: Lab | null,
     processing: boolean,
-    loading: LoadingState
+    loading: LoadingState,
+
 };
 export type RootState = {
     tests: TestsState;

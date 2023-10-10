@@ -3,10 +3,11 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import ProTip from './ProTip';
 
-import { Thunks, Selectors, useAppDispatch, useAppSelector } from './redux';
-import { Lab } from './services/Models';
+
+import { Thunks, Selectors, useAppDispatch, useAppSelector } from '../redux';
+import { Lab } from '../services/Models';
+import { Formatting } from '../services/Formatting';
 
 
 function Copyright() {
@@ -28,13 +29,8 @@ function LabEditor(props: { lab: Lab | null }) {
   if (props.lab === null) {
     return <Typography variant="body2" color="text.secondary" align="center">No Lab selected for editing</Typography>
   }
-  const dateFormat: Intl.DateTimeFormatOptions = {
-    "year": "numeric",
-    "month": "long",
-    "day": "2-digit"
-  };
-  const currentLocale = (navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;
-  return <Typography variant="body2" color="text.secondary" align="center">Lab editor for {props.lab.date.toLocaleDateString(currentLocale, dateFormat)}.</Typography>;
+
+  return <Typography variant="body2" color="text.secondary" align="center">Lab editor for {Formatting.DateTimes.format(props.lab.date)}.</Typography>;
 }
 
 export default function App() {
@@ -52,7 +48,7 @@ export default function App() {
         <Typography variant="h4" component="h1" gutterBottom>
           Material UI Create React App example in TypeScript
         </Typography>
-        <ProTip />
+
         <Copyright />
       </Box>
     </Container>
