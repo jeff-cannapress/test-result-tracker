@@ -2,36 +2,13 @@ import * as React from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+
 
 
 import { Thunks, Selectors, useAppDispatch, useAppSelector } from '../redux';
-import { Lab } from '../services/Models';
-import { Formatting } from '../services/Formatting';
+import Copyright from './Copyright';
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}.
-    </Typography>
-  );
-}
-
-function LabSelector() {
-  return <Typography variant="body2" color="text.secondary" align="center">Lab selection drop down</Typography>
-}
-function LabEditor(props: { lab: Lab | null }) {
-  if (props.lab === null) {
-    return <Typography variant="body2" color="text.secondary" align="center">No Lab selected for editing</Typography>
-  }
-
-  return <Typography variant="body2" color="text.secondary" align="center">Lab editor for {Formatting.DateTimes.format(props.lab.date)}.</Typography>;
-}
 
 export default function App() {
   const dispatch = useAppDispatch();

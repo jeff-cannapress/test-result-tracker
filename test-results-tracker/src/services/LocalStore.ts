@@ -1,5 +1,5 @@
 
-import { LabDataStore, Lab, TestCategory, TestUnits, TestDefinition } from "./Models";
+import { LabDataStore, ILab, TestCategory, TestUnits, TestDefinition } from "./Models";
 
 const unitsOfMass = [
     { name: 'grams', abbreviation: 'g', value: 1.0, intlUnit: 'mass-gram' },
@@ -122,7 +122,7 @@ export default class LocalStore implements LabDataStore {
     getTestDefinitions(): Promise<TestCategory[]> {
         return Promise.resolve(cannedCategories);
     }
-    async getLabs(patientId: string): Promise<Lab[]> {
+    async getLabs(patientId: string): Promise<ILab[]> {
         const json = this.store.getItem(this.storeKey(patientId));
         if (json === null || json === "" || json === undefined) {
             return [];
@@ -131,13 +131,13 @@ export default class LocalStore implements LabDataStore {
             return JSON.parse(json);
         }
     }
-    async saveLab(patientId: string, lab: Lab): Promise<Lab[]> {
+    async saveLab(patientId: string, lab: ILab): Promise<ILab[]> {
         let labs = await this.getLabs(patientId);
         labs = labs.filter(l => l.date.getTime() !== lab.date.getTime()).concat([lab]);
         this.store.setItem(this.storeKey(patientId), JSON.stringify(labs));
         return labs;
     }
-    async removeLab(patientId: string, lab: Lab): Promise<Lab[]> {
+    async removeLab(patientId: string, lab: ILab): Promise<ILab[]> {
         let labs = await this.getLabs(patientId);
         labs = labs.filter(l => l.date.getTime() !== lab.date.getTime());
         this.store.setItem(this.storeKey(patientId), JSON.stringify(labs));

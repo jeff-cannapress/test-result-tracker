@@ -1,5 +1,5 @@
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
-import { Lab, TestCategory } from "../../services/Models";
+import { ILab, TestCategory } from "../../services/Models";
 import { AnyAction, AsyncThunkPayloadCreator, Dispatch, ThunkDispatch, ThunkMiddleware, createAsyncThunk, } from "@reduxjs/toolkit";
 import { EqualityFn, useSelector } from "react-redux";
 import { CheckFrequency } from "react-redux/es/hooks/useSelector";
@@ -13,9 +13,9 @@ export type TestsState =
     };
 
 export type LabsState = {
-    labs: Lab[],
+    labs: ILab[],
     patientId: string,
-    currentLab: Lab | null,
+    currentLab: ILab | null,
     processing: boolean,
     loading: LoadingState,
 
